@@ -30,10 +30,13 @@ unblocks. Garvit: do the step, then tell Claude Code "I did HUMAN_TODO item N, c
    - **(b) Upgrade to Next 15.5.24.** Tell Claude Code "upgrade Next to 15.5.24". That needs React 19 and a re-run of all gates,
      and it deviates from the kit's pinned stack.
 
-4. **Before the first Vercel deploy: approve what gets published.** The deployment bundles `data/cache/*.json`, i.e. the
-   real holdings snapshot used as the expired-token fallback, and the page shows the account's real holdings. Turn on
-   Vercel Deployment Protection first (see DEPLOY.md). If you would rather not ship the cache, add `data/cache/` to
-   `.vercelignore`. The deployed app then shows a labelled "unavailable" state whenever the token has expired.
+4. **Before the first Vercel deploy: approve what gets published.** The page shows the account's real holdings, so turn on
+   Vercel Deployment Protection first (see DEPLOY.md).
+   - **From GitHub** (github.com/Garvitob/UPSTOX-DEMO, public): there is no cache, so once the token expires the app shows a
+     labelled "unavailable" state.
+   - **CLI deploy from this folder:** it also bundles `data/cache/*.json`, the real holdings snapshot used as the
+     expired-token fallback. To leave the snapshot out, add `data/cache/` to `.vercelignore`.
+
    Unblocks: PROGRESS Phase 11 "First deploy to Vercel".
 
 5. **Optional — the BUY confirmation during Upstox's Funds service hours.** The ticket works exactly like Upstox Pro: it

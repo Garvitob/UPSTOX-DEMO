@@ -234,7 +234,13 @@ Corrections made to the kit (evidence in docs/API_UPSTOX.md "Preflight correctio
 - [x] Production build verified locally — `NEXT_DIST_DIR=.next-prod npm run build` then `next start` on :3003: all 12 /api routes 200 with live data
   (holdings live, LTP + ltt, FX 96.3 via feed, MTF margin 522.7992, Alpaca AAPL $333.75 + 2 pending buys, SSE connected with ticks);
   `node scripts/scan-secrets.mjs .next-prod/static .next-prod/server` → 0 of 7 secrets in 79 files
-- [ ] First deploy to Vercel (blocked:human) — needs the human's Vercel login and an explicit OK to publish real holdings to a URL (HUMAN_TODO #4; steps in DEPLOY.md)
+- [x] Public GitHub copy at the human's request (2026-10-05 12:55 IST): github.com/Garvitob/UPSTOX-DEMO (public), one commit `faeb2e7`
+  made with `git archive` from master `f566cf8`. It has no history, because old commits carry the account holder's name. It leaves out
+  `reference/screenshots/*.png` and `artifacts/screenshots/superseded/`. 183 files: 0 of 7 secrets, and 0 of 8 account identifiers
+  (live Upstox profile + Alpaca account). A fresh clone builds the way Vercel does (exit 0, no `.env.local`), and all 12 routes trace
+  `data/*.json` and the feed proto. DEPLOY.md gained "From GitHub" steps. Later changes are copied into C:\upstox-share and pushed
+  from there, never from this repo.
+- [ ] First deploy to Vercel (blocked:human) — needs the human's Vercel login and an explicit OK to publish real holdings to a URL (HUMAN_TODO #4; steps in DEPLOY.md, from GitHub or the CLI)
 
 ---
 ## Decisions & rulings (CPO = product/copy authority, CTO = technical authority)

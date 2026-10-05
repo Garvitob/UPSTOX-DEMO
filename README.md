@@ -5,9 +5,11 @@ already hold: shares, average price, break-even, how much a 10% move is worth, a
 variant, an MTF variant, a re-entry line for stocks you sold earlier, and a US-stocks version that shows the dollar
 average and the rupee average side by side.
 
+**PM take-home:** start with [SUBMISSION.md](SUBMISSION.md), the write-up with the video link.
+
 **Every number on screen comes from a live API.**
 - India: the **Upstox Developer API**. Holdings, trade history, LTP v3, the Market Data Feed V3 WebSocket, historical
-  candles, the margin API, market status, and the sandbox order API.
+  candles, the margin and funds APIs, market status, and the sandbox order API.
 - US: the **Alpaca paper API**, with USD/INR from **Upstox's live global-indicator feed**.
 
 If a source is down, the app shows a labelled cached copy or says "unavailable". It never shows a guessed value.
@@ -28,7 +30,7 @@ from the cache, labelled `cached <time>`. Market data keeps working, because the
 
 | Command | What it does |
 |---|---|
-| `npm test` | 114 unit tests: SPEC formulas and copy, edge cases, live-or-cache, 429 backoff, order isolation and same-origin posts, paper-only Alpaca, Invested, GTT trigger ⇄ %, per-exchange ticks, Market-order price sampling |
+| `npm test` | 115 unit tests: SPEC formulas and copy, edge cases, live-or-cache, 429 backoff, order isolation and same-origin posts, paper-only Alpaca, Invested, GTT trigger ⇄ %, per-exchange ticks, Market-order price sampling, US lots at today's live rate |
 | `npm run test:slow` | About 60 s: the real price-feed client against a local WebSocket server. A silent (half-open) socket is dropped and the feed reconnects; a quiet but healthy one is kept |
 | `npm run build` | Production build. `NEXT_DIST_DIR=.next-verify npm run build` builds alongside a running dev server. |
 | `node scripts/verify-card.mjs 3` | Recomputes the card from the **raw** Upstox JSON (independent of `src/`), so you can check the screen by hand |

@@ -1,6 +1,6 @@
 # Add-More Check: PM take-home
 
-**Video:** <paste link> · Garvit · 5 Oct 2026
+**Video:** <paste link> · **Code:** https://github.com/Garvitob/UPSTOX-DEMO · Garvit · 5 Oct 2026
 
 ## The problem
 One moment, one missing fact. Someone adds to a stock they already hold, often after a fall. The Upstox Pro BUY ticket
@@ -36,7 +36,7 @@ input. Variants cover GTT, MTF, re-entry (a stock sold out earlier) and US stock
 ## How it was built and checked
 Built with Claude Code (Next.js 14, TypeScript) from `docs/SPEC.md` and an approved design, inside a replica of the
 Upstox Pro flow (hover → Buy → NSE/BSE → Place Order). Every phase ended in a gate of AI reviewers with fixed roles
-(visual QA, CPO, Senior PM, CTO), on Playwright screenshots once there was a screen. Blocking findings were fixed before moving on. 114 unit
+(visual QA, CPO, Senior PM, CTO), on Playwright screenshots once there was a screen. Blocking findings were fixed before moving on. 115 unit
 tests; 0 of 7 secrets in any bundle.
 
 ## Decisions and trade-offs
@@ -52,18 +52,19 @@ tests; 0 of 7 secrets in any bundle.
   after the order.
 
 ## What to look at
-Watch the video first (3–4 minutes, recorded in Monday's live session). The screenshots in `artifacts/screenshots/`
-were taken before Monday's open, at the last close:
+Watch the video first (3–4 minutes, recorded in Monday's live session). Most screenshots in `artifacts/screenshots/`
+were taken before Monday's open, at Friday's close. `p12-panel-open.png`, `p12-add-funds.png` and `p7-us-card.png` were
+captured live on Monday.
 1. `p12-panel-open.png`: the collapsed card, one line
 2. `p4-card-expanded.png`: the rows
 3. `p4-card-avg-up.png`: TMCV in profit, where the card reads "raises your average to ₹330.03"
 4. `p12-gtt-card-expanded.png`: GTT, with the trigger as the reference
 5. `p12-sell-confirm.png`: a real Upstox sandbox order ID
 
-Also see `p7-us-card.png` (the US card on the first AAPL paper fill, taken Monday in the overnight session), `p5-mtf.png`
+Also see `p7-us-card.png` (the US card on the first AAPL paper fill, with Upstox's live USD/INR), `p5-mtf.png`
 and `p9-phone-expanded.png`. `artifacts/API_MAP.md` maps every value to its endpoint.
-Files named `ref-*.png` are the approved design reference with its sample data, and `superseded/` holds replaced
-captures; neither shows the build. `classic-*.png` show the same build with classic Windows scrollbars.
+Files named `ref-*.png` are the approved design reference with its sample data; they don't show the build.
+`classic-*.png` show the same build with classic Windows scrollbars.
 
 ## Pending, and why
 - **US card on a real fill: done.** The AAPL extended-hours paper buy filled in Alpaca's overnight session (1 share at

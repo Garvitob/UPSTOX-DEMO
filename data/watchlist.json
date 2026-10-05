@@ -1,0 +1,20 @@
+{
+  "_source": "Transcribed from the account holder's own Upstox Pro watchlist (reference/screenshots/upstox-pro-holdings.png, 4 Oct 2026). Upstox has no watchlist API. Only symbols live here; every price is fetched from LTP v3 at runtime.",
+  "name": "top 20 by market cap",
+  "symbols": [
+    "NSE:HINDCOPPER",
+    "NSE:VEDL",
+    "NSE:RTNPOWER",
+    "NSE:BAJAJHFL",
+    "NSE:JIOFIN",
+    "NSE:GTLINFRA",
+    "NSE:IFCI",
+    "NSE:IREDA",
+    "BSE:PICCADIL",
+    "NSE:KAYNES",
+    "NSE:RVNL",
+    "NSE:IRFC",
+    "NSE:IDEAFORGE",
+    "NSE:LICI"
+  ]
+}

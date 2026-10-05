@@ -1,0 +1,394 @@
+{
+  "resolved_at": "2026-10-04T19:42:36.721Z",
+  "source": "https://assets.upstox.com/market-quote/instruments/exchange/complete.json.gz",
+  "equities": {
+    "INE982J01020": {
+      "instrument_key": "NSE_EQ|INE982J01020",
+      "trading_symbol": "PAYTM",
+      "name": "ONE 97 COMMUNICATIONS LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.1,
+      "bse_key": "BSE_EQ|INE982J01020",
+      "bse_tick_size": 0.05,
+      "source": "holdings + complete.json"
+    },
+    "INE1TAE01010": {
+      "instrument_key": "NSE_EQ|INE1TAE01010",
+      "trading_symbol": "TMCV",
+      "name": "TATA MOTORS LIMITED",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.05,
+      "bse_key": "BSE_EQ|INE1TAE01010",
+      "bse_tick_size": 0.05,
+      "source": "holdings + complete.json"
+    },
+    "INE155A01022": {
+      "instrument_key": "NSE_EQ|INE155A01022",
+      "trading_symbol": "TMPV",
+      "name": "TATA MOTORS PASS VEH LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.05,
+      "bse_key": "BSE_EQ|INE155A01022",
+      "bse_tick_size": 0.05,
+      "source": "holdings + complete.json"
+    },
+    "INE531E01026": {
+      "instrument_key": "NSE_EQ|INE531E01026",
+      "trading_symbol": "HINDCOPPER",
+      "name": "HINDUSTAN COPPER LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.05,
+      "bse_key": "BSE_EQ|INE531E01026",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    },
+    "INE205A01025": {
+      "instrument_key": "NSE_EQ|INE205A01025",
+      "trading_symbol": "VEDL",
+      "name": "VEDANTA LIMITED",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.05,
+      "bse_key": "BSE_EQ|INE205A01025",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    },
+    "INE399K01017": {
+      "instrument_key": "NSE_EQ|INE399K01017",
+      "trading_symbol": "RTNPOWER",
+      "name": "RATTANINDIA POWER LIMITED",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE399K01017",
+      "bse_tick_size": 0.01,
+      "source": "watchlist + complete.json"
+    },
+    "INE377Y01014": {
+      "instrument_key": "NSE_EQ|INE377Y01014",
+      "trading_symbol": "BAJAJHFL",
+      "name": "BAJAJ HOUSING FINANCE LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE377Y01014",
+      "bse_tick_size": 0.01,
+      "source": "watchlist + complete.json"
+    },
+    "INE758E01017": {
+      "instrument_key": "NSE_EQ|INE758E01017",
+      "trading_symbol": "JIOFIN",
+      "name": "JIO FIN SERVICES LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE758E01017",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    },
+    "INE221H01019": {
+      "instrument_key": "NSE_EQ|INE221H01019",
+      "trading_symbol": "GTLINFRA",
+      "name": "GTL INFRA.LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE221H01019",
+      "bse_tick_size": 0.01,
+      "source": "watchlist + complete.json"
+    },
+    "INE039A01010": {
+      "instrument_key": "NSE_EQ|INE039A01010",
+      "trading_symbol": "IFCI",
+      "name": "IFCI LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE039A01010",
+      "bse_tick_size": 0.01,
+      "source": "watchlist + complete.json"
+    },
+    "INE202E01016": {
+      "instrument_key": "NSE_EQ|INE202E01016",
+      "trading_symbol": "IREDA",
+      "name": "INDIAN RENEWABLE ENERGY",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE202E01016",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    },
+    "INE546C01010": {
+      "instrument_key": "NSE_EQ|INE546C01010",
+      "trading_symbol": "PICCADIL",
+      "name": "PICCADILY AGRO INDUSTRIES LTD.",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.05,
+      "bse_key": "BSE_EQ|INE546C01010",
+      "bse_tick_size": 0.05,
+      "source": "watchlist (BSE) + NSE listing, complete.json"
+    },
+    "INE918Z01012": {
+      "instrument_key": "NSE_EQ|INE918Z01012",
+      "trading_symbol": "KAYNES",
+      "name": "KAYNES TECHNOLOGY IND LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.1,
+      "bse_key": "BSE_EQ|INE918Z01012",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    },
+    "INE415G01027": {
+      "instrument_key": "NSE_EQ|INE415G01027",
+      "trading_symbol": "RVNL",
+      "name": "RAIL VIKAS NIGAM LIMITED",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE415G01027",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    },
+    "INE053F01010": {
+      "instrument_key": "NSE_EQ|INE053F01010",
+      "trading_symbol": "IRFC",
+      "name": "INDIAN RAILWAY FIN CORP L",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.01,
+      "bse_key": "BSE_EQ|INE053F01010",
+      "bse_tick_size": 0.01,
+      "source": "watchlist + complete.json"
+    },
+    "INE349Y01013": {
+      "instrument_key": "NSE_EQ|INE349Y01013",
+      "trading_symbol": "IDEAFORGE",
+      "name": "IDEAFORGE TECHNO LTD",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.05,
+      "bse_key": "BSE_EQ|INE349Y01013",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    },
+    "INE0J1Y01017": {
+      "instrument_key": "NSE_EQ|INE0J1Y01017",
+      "trading_symbol": "LICI",
+      "name": "LIFE INSURA CORP OF INDIA",
+      "exchange": "NSE",
+      "label": "NSE EQ",
+      "tick_size": 0.05,
+      "bse_key": "BSE_EQ|INE0J1Y01017",
+      "bse_tick_size": 0.05,
+      "source": "watchlist + complete.json"
+    }
+  },
+  "watchlist": {
+    "name": "top 20 by market cap",
+    "items": [
+      {
+        "symbol": "HINDCOPPER",
+        "exchange": "NSE",
+        "isin": "INE531E01026",
+        "name": "HINDUSTAN COPPER LTD",
+        "instrument_key": "NSE_EQ|INE531E01026",
+        "label": "NSE EQ",
+        "tick_size": 0.05,
+        "bse_key": "BSE_EQ|INE531E01026",
+        "bse_tick_size": 0.05
+      },
+      {
+        "symbol": "VEDL",
+        "exchange": "NSE",
+        "isin": "INE205A01025",
+        "name": "VEDANTA LIMITED",
+        "instrument_key": "NSE_EQ|INE205A01025",
+        "label": "NSE EQ",
+        "tick_size": 0.05,
+        "bse_key": "BSE_EQ|INE205A01025",
+        "bse_tick_size": 0.05
+      },
+      {
+        "symbol": "RTNPOWER",
+        "exchange": "NSE",
+        "isin": "INE399K01017",
+        "name": "RATTANINDIA POWER LIMITED",
+        "instrument_key": "NSE_EQ|INE399K01017",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE399K01017",
+        "bse_tick_size": 0.01
+      },
+      {
+        "symbol": "BAJAJHFL",
+        "exchange": "NSE",
+        "isin": "INE377Y01014",
+        "name": "BAJAJ HOUSING FINANCE LTD",
+        "instrument_key": "NSE_EQ|INE377Y01014",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE377Y01014",
+        "bse_tick_size": 0.01
+      },
+      {
+        "symbol": "JIOFIN",
+        "exchange": "NSE",
+        "isin": "INE758E01017",
+        "name": "JIO FIN SERVICES LTD",
+        "instrument_key": "NSE_EQ|INE758E01017",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE758E01017",
+        "bse_tick_size": 0.05
+      },
+      {
+        "symbol": "GTLINFRA",
+        "exchange": "NSE",
+        "isin": "INE221H01019",
+        "name": "GTL INFRA.LTD",
+        "instrument_key": "NSE_EQ|INE221H01019",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE221H01019",
+        "bse_tick_size": 0.01
+      },
+      {
+        "symbol": "IFCI",
+        "exchange": "NSE",
+        "isin": "INE039A01010",
+        "name": "IFCI LTD",
+        "instrument_key": "NSE_EQ|INE039A01010",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE039A01010",
+        "bse_tick_size": 0.01
+      },
+      {
+        "symbol": "IREDA",
+        "exchange": "NSE",
+        "isin": "INE202E01016",
+        "name": "INDIAN RENEWABLE ENERGY",
+        "instrument_key": "NSE_EQ|INE202E01016",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE202E01016",
+        "bse_tick_size": 0.05
+      },
+      {
+        "symbol": "PICCADIL",
+        "exchange": "BSE",
+        "isin": "INE546C01010",
+        "name": "PICCADILY AGRO INDUSTRIES LTD.",
+        "instrument_key": "BSE_EQ|INE546C01010",
+        "label": "BSE B",
+        "tick_size": 0.05,
+        "bse_key": null,
+        "bse_tick_size": null
+      },
+      {
+        "symbol": "KAYNES",
+        "exchange": "NSE",
+        "isin": "INE918Z01012",
+        "name": "KAYNES TECHNOLOGY IND LTD",
+        "instrument_key": "NSE_EQ|INE918Z01012",
+        "label": "NSE EQ",
+        "tick_size": 0.1,
+        "bse_key": "BSE_EQ|INE918Z01012",
+        "bse_tick_size": 0.05
+      },
+      {
+        "symbol": "RVNL",
+        "exchange": "NSE",
+        "isin": "INE415G01027",
+        "name": "RAIL VIKAS NIGAM LIMITED",
+        "instrument_key": "NSE_EQ|INE415G01027",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE415G01027",
+        "bse_tick_size": 0.05
+      },
+      {
+        "symbol": "IRFC",
+        "exchange": "NSE",
+        "isin": "INE053F01010",
+        "name": "INDIAN RAILWAY FIN CORP L",
+        "instrument_key": "NSE_EQ|INE053F01010",
+        "label": "NSE EQ",
+        "tick_size": 0.01,
+        "bse_key": "BSE_EQ|INE053F01010",
+        "bse_tick_size": 0.01
+      },
+      {
+        "symbol": "IDEAFORGE",
+        "exchange": "NSE",
+        "isin": "INE349Y01013",
+        "name": "IDEAFORGE TECHNO LTD",
+        "instrument_key": "NSE_EQ|INE349Y01013",
+        "label": "NSE EQ",
+        "tick_size": 0.05,
+        "bse_key": "BSE_EQ|INE349Y01013",
+        "bse_tick_size": 0.05
+      },
+      {
+        "symbol": "LICI",
+        "exchange": "NSE",
+        "isin": "INE0J1Y01017",
+        "name": "LIFE INSURA CORP OF INDIA",
+        "instrument_key": "NSE_EQ|INE0J1Y01017",
+        "label": "NSE EQ",
+        "tick_size": 0.05,
+        "bse_key": "BSE_EQ|INE0J1Y01017",
+        "bse_tick_size": 0.05
+      }
+    ]
+  },
+  "indices": {
+    "Nifty 50": {
+      "instrument_key": "NSE_INDEX|Nifty 50",
+      "label": "NIFTY 50",
+      "expiries": [
+        1791311399000,
+        1791916199000,
+        1792434599000,
+        1793125799000
+      ]
+    },
+    "Nifty Bank": {
+      "instrument_key": "NSE_INDEX|Nifty Bank",
+      "label": "BANKNIFTY",
+      "expiries": [
+        1793125799000,
+        1795458599000,
+        1798568999000,
+        1806431399000
+      ]
+    },
+    "SENSEX": {
+      "instrument_key": "BSE_INDEX|SENSEX",
+      "label": "SENSEX",
+      "expiries": [
+        1791484199000,
+        1792088999000,
+        1792693799000,
+        1793298599000
+      ]
+    }
+  },
+  "fx": {
+    "instrument_key": "GLOBAL_INDICATOR|USDINR",
+    "name": "USD INR",
+    "trading_symbol": "USDINR",
+    "latency": "20 Seconds",
+    "hours": "2.30AM Sunday – 1.30AM Saturday",
+    "source": "https://assets.upstox.com/market-quote/instruments/exchange/complete.json.gz",
+    "verified": "LTP v2/v3, quotes v2, OHLC v3 reject this key; historical + intraday candles v3 accept it (preflight 2026-10-04)"
+  },
+  "notes": []
+}

@@ -1,0 +1,9 @@
+# Vercel CLI uploads everything except its defaults (.env.local, .next, node_modules, .git are already excluded).
+# Keep personal and dev-only material out of the deployment source.
+reference/screenshots/
+artifacts/
+.claude/
+data/env-check.json
+_scaffold/
+*.log
+.next-*/

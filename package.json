@@ -1,0 +1,38 @@
+{
+  "name": "add-more-check",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Add-More Check — a position card inside the Upstox Pro BUY ticket, on the real Upstox Developer API (+ Alpaca paper for US stocks).",
+  "scripts": {
+    "dev": "next dev -H 127.0.0.1 -p 3000",
+    "build": "next build",
+    "start": "next start -H 127.0.0.1 -p 3000",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:slow": "vitest run --config vitest.slow.config.mts",
+    "typecheck": "tsc --noEmit",
+    "smoke": "node scripts/smoke-api.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "next": "^14.2.35",
+    "protobufjs": "^7.6.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "server-only": "^0.0.1",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@types/ws": "^8.18.2",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.3"
+  }
+}

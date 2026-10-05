@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Add-More Check — Upstox Pro demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f4f6; --card:#ffffff; --line:#e6e6ea; --line-strong:#d9d9df;
+    --ink:#1f2024; --ink-2:#55585e; --ink-3:#8a8d93;
+    --purple:#5a33b5; --purple-dark:#3c1a85; --purple-soft:#efeafb; --purple-line:#d9cdf5;
+    --green:#1b9a5b; --green-ink:#128a4e; --red:#e0463e; --amber:#9a6b00;
+    --font:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#f4f4f6; } } /* replica stays in Upstox light theme */
+  :root[data-theme="dark"]{ --bg:#f4f4f6; }
+  html{ scroll-padding-top:env(safe-area-inset-top,0px); }
+  *,*::before,*::after{ box-sizing:inherit; }
+  html,body{ margin:0; height:100%; }
+  body{ background:var(--bg); color:var(--ink); font-family:var(--font); font-size:13px; line-height:1.35; -webkit-font-smoothing:antialiased; overflow-x:auto; }
+  button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+  input{ font:inherit; }
+  .app{ min-width:1280px; display:flex; flex-direction:column; min-height:100vh; }
+
+  /* demo tag */
+  .demo-tag{ position:fixed; left:12px; bottom:12px; z-index:50; background:#1f2024; color:#fff; font-size:11px; padding:6px 10px; border-radius:6px; opacity:.85; }
+
+  /* ticker */
+  .ticker{ background:var(--card); border-bottom:1px solid var(--line); height:38px; display:flex; align-items:center; justify-content:center; gap:34px; font-size:12.5px; }
+  .ticker b{ font-weight:600; }
+  .ticker .px{ font-weight:600; margin-left:6px; }
+  .ticker .chg{ color:var(--red); margin-left:6px; }
+  .ticker .exp{ color:var(--ink-3); margin-left:8px; }
+
+  /* top bar */
+  .topbar{ background:var(--card); border-bottom:1px solid var(--line); height:46px; display:flex; align-items:center; padding:0 14px; gap:14px; }
+  .logo{ width:26px; height:26px; border-radius:6px; background:var(--purple-dark); color:#fff; font-weight:700; font-size:11px; display:grid; place-items:center; }
+  .chev{ color:var(--ink-3); font-size:11px; }
+  .pnl{ display:flex; gap:22px; font-size:12.5px; color:var(--ink-2); }
+  .pnl .neg{ color:var(--red); font-weight:600; }
+  .pnl .zero{ color:var(--ink); font-weight:600; }
+  .nav{ margin-left:auto; display:flex; align-items:center; gap:22px; font-size:13px; color:var(--ink-2); }
+  .nav .on{ color:var(--ink); font-weight:600; position:relative; }
+  .nav .on::after{ content:""; position:absolute; left:0; right:0; bottom:-15px; height:2px; background:var(--ink); }
+  .search{ width:210px; height:30px; border:1px solid var(--line-strong); border-radius:4px; display:flex; align-items:center; padding:0 10px; color:var(--ink-3); gap:8px; }
+  .funds{ height:30px; border:1px solid var(--line-strong); border-radius:4px; padding:0 10px; display:flex; align-items:center; gap:6px; font-weight:500; }
+  .avatar{ width:30px; height:30px; border-radius:4px; border:1px solid var(--line-strong); display:grid; place-items:center; font-size:12px; font-weight:600; }
+
+  /* workspace */
+  .work{ display:flex; flex:1; min-height:0; }
+  .watch{ width:318px; background:var(--card); border-right:1px solid var(--line); display:flex; flex-direction:column; }
+  .watch-tabs{ height:40px; display:flex; align-items:center; padding:0 10px; gap:10px; border-bottom:1px solid var(--line); color:var(--ink-3); }
+  .watch-tabs .t{ width:28px; height:28px; border-radius:4px; display:grid; place-items:center; color:var(--ink); background:var(--bg); font-weight:600; }
+  .watch-head{ display:flex; align-items:center; padding:10px 12px 6px; gap:8px; }
+  .watch-head .name{ font-weight:600; max-width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .watch-head .cnt{ background:var(--bg); border-radius:4px; padding:2px 6px; font-size:11px; }
+  .watch-head .by{ grid-column:1/-1; font-size:11px; color:var(--ink-3); }
+  .watch-head .ic{ margin-left:auto; display:flex; gap:10px; color:var(--ink-3); }
+  .watch-head .add{ width:26px; height:26px; border-radius:6px; background:var(--purple); color:#fff; display:grid; place-items:center; font-size:16px; }
+  .wl{ overflow:auto; }
+  .wl .row{ display:flex; justify-content:space-between; align-items:center; padding:9px 14px; border-bottom:1px solid var(--line); cursor:pointer; }
+  .wl .row:hover{ background:#fafafb; }
+  .wl .row.sel{ background:var(--purple-soft); }
+  .wl .sym{ font-weight:600; font-size:12.5px; }
+  .wl .ex{ font-size:11px; color:var(--ink-3); margin-top:2px; }
+  .wl .r{ text-align:right; }
+  .wl .px{ font-weight:500; }
+  .wl .ch{ font-size:11px; margin-top:2px; }
+  .neg{ color:var(--red); } .pos{ color:var(--green-ink); }
+
+  .main{ flex:1; min-width:0; padding:10px 10px 10px 10px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:6px; height:100%; display:flex; flex-direction:column; }
+  .htabs{ display:flex; align-items:center; padding:0 16px; border-bottom:1px solid var(--line); height:44px; gap:22px; }
+  .htabs .tab{ padding:12px 0; color:var(--ink-2); font-weight:500; position:relative; }
+  .htabs .tab.on{ color:var(--ink); font-weight:600; }
+  .htabs .tab.on::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--ink); }
+  .htabs .tab .ext{ font-size:10px; color:var(--purple); background:var(--purple-soft); padding:1px 6px; border-radius:10px; margin-left:6px; font-weight:600; }
+  .htabs .ic{ margin-left:auto; color:var(--ink-3); display:flex; gap:14px; }
+  .tools{ display:flex; align-items:center; gap:10px; padding:12px 16px 0; }
+  .btn-o{ height:30px; border:1px solid var(--line-strong); border-radius:4px; padding:0 10px; display:flex; align-items:center; gap:6px; font-weight:500; }
+  .tools .ic{ margin-left:auto; color:var(--ink-3); display:flex; gap:14px; }
+  .summary{ display:flex; align-items:flex-end; gap:0; padding:16px 16px 10px; }
+  .summary .cv{ padding-right:22px; border-right:1px solid var(--line); margin-right:22px; }
+  .summary .lbl{ color:var(--ink-2); font-size:12.5px; }
+  .summary .big{ font-size:28px; font-weight:600; margin-top:4px; }
+  .summary .big small{ font-size:18px; }
+  .summary .st{ margin-right:28px; }
+  .summary .st .v{ font-weight:600; font-size:15px; margin-top:4px; }
+  .summary .st .v .p{ font-weight:400; }
+  table{ width:100%; border-collapse:collapse; }
+  thead th{ text-align:right; font-weight:400; color:var(--ink-2); font-size:12px; padding:10px 16px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  thead th:first-child{ text-align:left; }
+  tbody td{ text-align:right; padding:18px 16px; border-bottom:1px solid var(--line); font-size:13px; white-space:nowrap; }
+  tbody td:first-child{ text-align:left; font-weight:600; }
+  tbody tr{ cursor:pointer; }
+  tbody tr:hover{ background:#fafafb; }
+  tbody tr.sel td:first-child{ color:var(--purple); }
+
+  /* order panel */
+  .order{ width:360px; background:var(--card); border-left:1px solid var(--line); display:flex; flex-direction:column; }
+  .seg{ display:flex; margin:10px 14px 0; border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; font-size:12px; }
+  .seg button{ flex:1; padding:6px 0; color:var(--ink-2); font-weight:500; }
+  .seg button.on{ background:var(--purple); color:#fff; }
+  .seg .x{ font-size:10px; opacity:.8; margin-left:4px; }
+  .o-head{ display:flex; align-items:center; padding:12px 14px 4px; font-weight:600; font-size:14px; }
+  .o-head .ic{ margin-left:auto; display:flex; gap:12px; color:var(--ink-3); font-weight:400; }
+  .o-stock{ display:flex; justify-content:space-between; padding:6px 14px 8px; }
+  .o-stock .nm{ font-weight:600; font-size:15px; }
+  .o-stock .ch{ font-size:12px; margin-top:3px; }
+  .o-stock .px{ text-align:right; font-size:12.5px; line-height:1.5; }
+  .o-stock .px b{ font-weight:600; }
+  .radio{ display:inline-block; width:12px; height:12px; border:1.5px solid var(--ink-2); border-radius:50%; vertical-align:-1px; margin-left:6px; }
+  .radio.on{ border-color:var(--purple); box-shadow:inset 0 0 0 3px #fff; background:var(--purple); }
+  .o-tabs{ display:flex; gap:20px; padding:4px 14px 0; border-bottom:1px solid var(--line); }
+  .o-tabs button{ padding:8px 0 10px; color:var(--ink-2); font-weight:500; position:relative; display:flex; align-items:center; gap:6px; }
+  .o-tabs button.on{ color:var(--ink); font-weight:600; }
+  .o-tabs button.on::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--ink); }
+  .badge{ background:var(--purple); color:#fff; font-size:10px; font-weight:600; padding:2px 6px; border-radius:4px; }
+  .o-body{ padding:14px 14px 0; flex:1; overflow:auto; }
+  .prod{ display:flex; gap:8px; }
+  .prod button{ flex:1; height:34px; border:1px solid var(--line-strong); border-radius:4px; font-weight:500; }
+  .prod button.on{ background:var(--purple); border-color:var(--purple); color:#fff; font-weight:600; }
+  .qp{ display:flex; gap:12px; margin-top:14px; }
+  .qp .f{ flex:1; }
+  .qp .lbl{ color:var(--ink-2); font-size:12.5px; display:flex; justify-content:space-between; align-items:center; }
+  .qp .lbl button{ color:var(--purple); font-weight:500; font-size:12px; }
+  .stepper{ margin-top:6px; height:36px; border:1px solid var(--line-strong); border-radius:4px; display:flex; align-items:center; }
+  .stepper button{ width:30px; height:100%; color:var(--ink-2); font-size:16px; }
+  .stepper input{ flex:1; border:0; text-align:center; font-weight:600; outline:none; min-width:0; }
+  .pbox{ margin-top:6px; height:36px; border:1px solid var(--line-strong); border-radius:4px; display:flex; align-items:center; padding:0 10px; background:var(--bg); color:var(--ink-3); }
+  .pbox input{ border:0; background:transparent; width:100%; outline:none; font-weight:600; color:var(--ink); }
+  .pbox.on{ background:#fff; }
+  .mtfrow{ margin-top:12px; border:1px solid var(--line-strong); border-radius:6px; padding:9px 10px; display:flex; align-items:center; gap:8px; font-size:12.5px; }
+  .mtfrow .cb{ width:14px; height:14px; border:1.5px solid var(--ink-2); border-radius:3px; }
+  .mtfrow .b{ background:var(--purple-soft); color:var(--purple); font-weight:600; font-size:10px; padding:2px 6px; border-radius:4px; }
+  .mtfrow .i{ margin-left:auto; color:var(--ink-3); }
+  .acc{ display:flex; justify-content:space-between; align-items:center; padding:13px 2px; border-bottom:1px solid var(--line); font-weight:600; }
+  .acc small{ display:block; font-weight:400; color:var(--ink-2); margin-top:2px; }
+  .acc .ch{ color:var(--ink-3); }
+  .note{ margin-top:14px; border:1px solid var(--line-strong); border-radius:6px; padding:10px 12px; display:flex; gap:8px; font-size:12.5px; color:var(--ink-2); }
+  .note .dot{ width:14px; height:14px; border-radius:50%; background:var(--purple); flex:none; margin-top:1px; }
+  .o-foot{ border-top:1px solid var(--line); padding:10px 14px; display:flex; justify-content:space-between; font-size:12.5px; }
+  .o-foot .req{ color:var(--ink); } .o-foot .req u{ color:var(--ink-2); }
+  .o-foot .mtf{ color:var(--green-ink); }
+  .review{ height:46px; background:var(--green); color:#fff; font-weight:600; font-size:14px; width:100%; }
+  .rail{ width:44px; background:var(--card); border-left:1px solid var(--line); display:flex; flex-direction:column; align-items:center; padding-top:8px; gap:10px; }
+  .rail .cart{ width:28px; height:28px; background:var(--purple); border-radius:6px; }
+  .rail .inf{ width:22px; height:22px; border:1.5px solid var(--ink-2); border-radius:50%; display:grid; place-items:center; font-size:12px; font-weight:600; color:var(--ink-2); }
+
+  /* ======= THE FEATURE: Add-More Check (native Upstox-style position card) ======= */
+  .amc{ margin-top:12px; border:1px solid var(--line-strong); background:#fff; border-radius:6px; }
+  .amc .head{ display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; user-select:none; }
+  .amc .head .ico{ width:18px; height:18px; border-radius:50%; border:2px solid var(--purple); border-right-color:var(--purple-line); border-bottom-color:var(--purple-line); flex:none; }
+  .amc .head .ttl{ font-weight:600; font-size:12.5px; }
+  .amc .head .right{ margin-left:auto; display:flex; align-items:center; gap:6px; }
+  .amc .head .sum{ text-align:right; font-size:12.5px; color:var(--ink-2); white-space:nowrap; }
+  .amc .head .sum b{ color:var(--ink); font-weight:600; }
+  .amc .head .arrow{ color:var(--ink-3); font-size:11px; transition:transform .15s; }
+  .amc.open .head .arrow{ transform:rotate(180deg); }
+  .amc .body{ display:none; border-top:1px solid var(--line); }
+  .amc.open .body{ display:block; }
+  .amc{ overflow:hidden; }
+  .amc .head{ flex-wrap:wrap; }
+  .amc .lead{ padding:10px 12px; font-size:12.5px; line-height:1.5; color:var(--ink); border-bottom:1px solid var(--line); }
+  .amc .lead b{ font-weight:600; }
+  .amc .kv{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:8px 12px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  .amc .kv .k{ color:var(--ink-2); font-size:12px; }
+  .amc .kv .v{ font-size:12.5px; color:var(--ink-2); text-align:right; margin-left:auto; }
+  .amc .kv .v b{ color:var(--ink); font-weight:600; }
+  .amc .kv .v .a{ color:var(--ink-3); margin:0 4px; }
+  .amc .kv .s{ flex-basis:100%; font-size:11px; color:var(--ink-3); text-align:right; margin-top:-2px; }
+  .amc .chain{ padding:9px 12px; font-size:12px; color:var(--ink-2); border-bottom:1px solid var(--line); line-height:1.6; }
+  .amc .chain b{ color:var(--ink); font-weight:600; }
+  .amc .chain .a{ color:var(--ink-3); margin:0 3px; }
+  .amc .chain .d{ display:block; font-size:11px; color:var(--ink-3); }
+  .mob-only{ display:none; }
+  @media (max-width: 900px){
+    .app{ min-width:0; }
+    .ticker,.watch,.main,.rail,.nav,.demo-tag{ display:none; }
+    .work{ display:block; }
+    .order{ width:100%; border-left:0; min-height:calc(100vh - 46px); }
+    .mob-only{ display:block; margin:10px 14px 0; }
+    .mob-only select{ width:100%; height:34px; border:1px solid var(--line-strong); border-radius:4px; padding:0 8px; font:inherit; background:#fff; }
+  }
+  .amc .stat2{ display:flex; border-bottom:1px solid var(--line); }
+  .amc .stat2 > div{ flex:1; padding:9px 12px; }
+  .amc .stat2 > div + div{ border-left:1px solid var(--line); }
+  .amc .stat2 .l{ font-size:11px; color:var(--ink-3); }
+  .amc .stat2 .n{ font-size:15px; font-weight:600; margin-top:2px; }
+  .amc .why{ padding:8px 12px; font-size:11.5px; color:var(--ink-2); border-bottom:1px solid var(--line); line-height:1.5; }
+  .amc .foot{ display:flex; align-items:center; gap:6px; padding:8px 12px 10px; border-top:1px solid var(--line); font-size:11px; color:var(--ink-3); }
+  .amc .foot .i{ width:14px; height:14px; border-radius:50%; border:1px solid var(--ink-3); display:grid; place-items:center; font-size:9px; font-weight:600; flex:none; cursor:help; }
+  .amc .foot .i:hover{ color:var(--ink); border-color:var(--ink); }
+  .amc.reentry .head .ico{ border-color:var(--amber); border-right-color:#f0dfae; border-bottom-color:#f0dfae; }
+  @media (prefers-reduced-motion: reduce){ .amc .head .arrow{ transition:none; } }
+
+  /* receipt overlay */
+  .ov{ position:fixed; inset:0; background:rgba(20,20,30,.45); display:none; align-items:center; justify-content:center; z-index:40; }
+  .ov.on{ display:flex; }
+  .sheet{ width:380px; background:#fff; border-radius:10px; padding:20px; box-shadow:0 20px 60px rgba(0,0,0,.25); }
+  .sheet h3{ margin:0 0 4px; font-size:15px; }
+  .sheet .sub{ color:var(--ink-2); font-size:12.5px; }
+  .sheet .r{ margin:14px 0; border:1px solid var(--purple-line); background:var(--purple-soft); border-radius:6px; padding:10px 12px; font-size:12.5px; }
+  .sheet .r b{ font-weight:600; }
+  .sheet .lbl{ font-size:10.5px; color:var(--purple); margin-bottom:4px; font-weight:600; }
+  .sheet .ok{ height:40px; background:var(--green); color:#fff; font-weight:600; width:100%; border-radius:6px; }
+  .sheet .meta{ font-size:11px; color:var(--ink-3); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="demo-tag">Hardcoded demo · final build reads live Upstox APIs</div>
+
+<div class="app">
+  <div class="ticker">
+    <span><b>NIFTY 50</b><span class="px">22,421.95</span><span class="chg">-198.50 (-0.88%)</span><span class="exp">Exp. 06 Oct</span></span>
+    <span><b>BANKNIFTY</b><span class="px">54,450.75</span><span class="chg">-182.30 (-0.33%)</span><span class="exp">Exp. 27 Oct</span></span>
+    <span><b>SENSEX</b><span class="px">71,909.70</span><span class="chg">-570.59 (-0.79%)</span><span class="exp">Exp. 08 Oct</span></span>
+  </div>
+
+  <header class="topbar">
+    <div class="logo">up</div><span class="chev">▾</span>
+    <div class="pnl"><span>Hol. Total P&amp;L <span class="neg">-8,158.50</span></span><span>Pos. Total P&amp;L: <span class="zero">0.00</span></span><span style="color:var(--ink-3)">👁</span></div>
+    <nav class="nav">
+      <span>Home</span><span>My List</span><span>Orders</span><span>Positions</span><span class="on">Holdings</span><span>More ▾</span>
+      <div class="search">⌕ <span>Search</span></div>
+      <div class="funds">▭ Funds</div>
+      <div class="avatar">DA</div>
+      <span style="color:var(--ink-3)">⋮⋮⋮</span>
+    </nav>
+  </header>
+
+  <div class="work">
+    <aside class="watch">
+      <div class="watch-tabs"><span>‹</span><span class="t">1</span><span>＋</span><span style="margin-left:auto">⋮</span></div>
+      <div class="watch-head" style="display:grid;grid-template-columns:auto auto 1fr;align-items:center;">
+        <span class="name">top 20 by market c…</span><span class="cnt">45 / 200</span>
+        <span class="ic" style="justify-self:end"><span>⋮</span><span>≡</span><span class="add">+</span></span>
+        <span class="by">by You</span>
+      </div>
+      <div class="wl" id="wl"></div>
+    </aside>
+
+    <main class="main">
+      <div class="card">
+        <div class="htabs">
+          <button class="tab on" id="tabIN" data-mkt="IN">Stocks (3)</button>
+          <button class="tab">Mutual Funds</button>
+          <button class="tab" id="tabUS" data-mkt="US">US Stocks (1)<span class="ext">extension</span></button>
+          <span class="ic"><span>⟳</span><span>⤡</span><span>⤢</span></span>
+        </div>
+        <div class="tools">
+          <span class="btn-o">⚲</span><span class="btn-o">Sectors ▾</span>
+          <span class="ic"><span>⌕</span><span>⋮</span><span>👁</span></span>
+        </div>
+        <div class="summary" id="summary"></div>
+        <div style="overflow:auto"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+      </div>
+    </main>
+
+    <section class="order">
+      <div class="mob-only"><select id="symSel">
+        <option value="IN:PAYTM">PAYTM — held, at a loss</option>
+        <option value="IN:TMCV">TMCV — held, in profit</option>
+        <option value="IN:TMPV">TMPV — held, at a loss</option>
+        <option value="IN:IRFC">IRFC — sold earlier (re-entry)</option>
+        <option value="IN:VEDL">VEDL — never held (no card)</option>
+        <option value="US:AAPL">AAPL — US Stocks extension</option>
+      </select></div>
+      <div class="seg">
+        <button id="segIN" class="on" data-mkt="IN">India · Upstox</button>
+        <button id="segUS" data-mkt="US">US Stocks <span class="x">extension</span></button>
+      </div>
+      <div class="o-head">Place Order <span class="ic"><span>⊕</span><span>✕</span></span></div>
+      <div class="o-stock" id="ostock"></div>
+      <div class="o-tabs" id="otabs"></div>
+      <div class="o-body" id="obody"></div>
+      <div class="o-foot" id="ofoot"></div>
+      <button class="review" id="review">Review buy order</button>
+    </section>
+
+    <div class="rail"><div class="cart"></div><div class="inf">i</div></div>
+  </div>
+</div>
+
+<div class="ov" id="ov">
+  <div class="sheet">
+    <h3 id="rcTitle">Order placed</h3>
+    <div class="sub" id="rcSub"></div>
+    <div class="r"><div class="lbl">Add-More Check · receipt</div><div id="rcBody"></div></div>
+    <button class="ok" id="rcOk">Done</button>
+    <div class="meta" id="rcMeta"></div>
+  </div>
+</div>
+
+<script>
+/* ---------- hardcoded data (final build: Upstox Holdings / Trade history / LTP APIs) ---------- */
+const HOLD = {
+  PAYTM:{ sym:'PAYTM', ex:'NSE EQ', qty:6,  avg:2150.00, ltp:1656.00, chg:-22.00, chgPct:-1.31, bse:1664.80,
+          dayPnl:-132.00, dayPct:-1.31, overall:-2964.00, overallPct:-22.98, invested:12900.00,
+          buys:[{d:'12 Jan 2026',p:2460.00,q:2},{d:'3 Mar 2026',p:2200.00,q:2},{d:'9 Jun 2026',p:1790.00,q:2}] },
+  TMCV: { sym:'TMCV',  ex:'NSE EQ', qty:15, avg:324.33,  ltp:415.50,  chg:-6.15,  chgPct:-1.46, bse:416.30,
+          dayPnl:-92.25, dayPct:-1.46, overall:1367.55, overallPct:28.11, invested:4865.01,
+          buys:[{d:'4 Feb 2026',p:310.00,q:10},{d:'22 Apr 2026',p:353.00,q:5}] },
+  TMPV: { sym:'TMPV',  ex:'NSE EQ', qty:15, avg:716.87,  ltp:279.40,  chg:-4.10,  chgPct:-1.45, bse:279.95,
+          dayPnl:-61.50, dayPct:-1.45, overall:-6562.05, overallPct:-61.03, invested:10752.99,
+          buys:[{d:'15 Jul 2025',p:820.00,q:5},{d:'2 Dec 2025',p:700.00,q:5},{d:'18 Aug 2026',p:630.60,q:5}] },
+};
+const WATCH = [
+  ['HINDCOPPER','NSE EQ',462.15,-10.50,-2.22],['VEDL','NSE EQ',252.05,-6.95,-2.68],['RTNPOWER','NSE EQ',6.74,-0.15,-2.18],
+  ['BAJAJHFL','NSE EQ',82.91,0.91,1.11],['JIOFIN','NSE EQ',212.50,-4.38,-2.02],['GTLINFRA','NSE EQ',1.07,-0.01,-0.93],
+  ['IFCI','NSE EQ',65.14,-3.63,-5.28],['IREDA','NSE EQ',111.00,-0.68,-0.61],['PICCADIL','BSE B',580.90,-12.15,-2.05],
+  ['KAYNES','NSE EQ',3399.00,-102.00,-2.91],['RVNL','NSE EQ',197.00,-4.76,-2.36],['IRFC','NSE EQ',77.06,-2.22,-2.80],
+  ['IDEAFORGE','NSE EQ',735.00,4.05,0.55],['LICI','NSE EQ',391.85,-3.35,-0.85],
+];
+/* previously sold out (final build: Trade history API, last 3 FYs) */
+const SOLD = { IRFC:{ q:50, p:142.20, d:'14 Mar 2026' } };
+/* US extension (final build: Alpaca paper positions + fills; USD/INR from Upstox global indicator) */
+const US = { AAPL:{ sym:'AAPL', ex:'NASDAQ', qty:2.4, avg:182.10, ltp:176.00, chg:-2.10, chgPct:-1.18, fxNow:88.00,
+             buys:[{d:'8 Jan 2026',p:185.00,q:1.2,fx:82.60},{d:'22 May 2026',p:179.20,q:1.2,fx:83.40}] } };
+
+/* ---------- state ---------- */
+const S = { mkt:'IN', sym:'PAYTM', tab:'regular', qty:3, priceMode:'market', limit:1656, trigger:1500, open:true, usQty:1 };
+
+/* ---------- helpers ---------- */
+const inr = (n,d=2)=> '₹'+Number(n).toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d});
+const num = (n,d=2)=> Number(n).toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d});
+const usd = (n,d=2)=> '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const pct = n=> Math.abs(n).toFixed(1)+'%';
+const nth = n=>{ const s=['th','st','nd','rd'], v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); };
+const cls = n=> n<0?'neg':'pos';
+const sgn = (n,d=2)=> (n<0?'':'+')+num(n,d);
+
+/* ---------- core maths (identical to production) ---------- */
+function compute(h, q, p, ref){
+  const Q=h.qty, A=h.avg;
+  const newAvg = (Q*A + q*p)/(Q+q);
+  const gapBefore = ref/A - 1, gapAfter = ref/newAvg - 1;   // negative = price below break-even
+  const moveBefore = 0.10*Q*ref, moveAfter = 0.10*(Q+q)*ref;
+  return { newAvg, gapBefore, gapAfter, moveBefore, moveAfter, nth:h.buys.length+1, invested:(Q+q)*ref };
+}
+
+/* ---------- render: watchlist ---------- */
+function renderWatch(){
+  document.getElementById('wl').innerHTML = WATCH.map(([s,e,px,c,cp])=>`
+    <div class="row ${S.mkt==='IN'&&S.sym===s?'sel':''}" data-sym="${s}">
+      <div><div class="sym">${s}</div><div class="ex">${e}</div></div>
+      <div class="r"><div class="px ${cls(c)}">${num(px)}</div><div class="ch ${cls(c)}">${sgn(c)} (${sgn(cp)}%)</div></div>
+    </div>`).join('');
+  document.querySelectorAll('#wl .row').forEach(r=>r.onclick=()=>{ S.mkt='IN'; S.sym=r.dataset.sym; S.qty=HOLD[S.sym]?3:1; S.open=true; render(); });
+}
+
+/* ---------- render: holdings ---------- */
+function renderHoldings(){
+  const th=document.getElementById('thead'), tb=document.getElementById('tbody'), sm=document.getElementById('summary');
+  if(S.mkt==='IN'){
+    sm.innerHTML = `<div class="cv"><div class="lbl">Current value</div><div class="big">20,359<small>.50</small></div></div>
+      <div class="st"><div class="lbl">Invested</div><div class="v">28,518.00</div></div>
+      <div class="st"><div class="lbl">Total P&amp;L</div><div class="v neg">-8,158.50 <span class="p">(-28.61%)</span></div></div>
+      <div class="st"><div class="lbl">Day's P&amp;L ‹›</div><div class="v neg">-285.75 <span class="p">(-1.38%)</span></div></div>`;
+    th.innerHTML = `<tr><th>Symbol (3) ↑</th><th>Qty.</th><th>Avg. price</th><th>LTP</th><th>Day P&amp;L</th><th>Day %</th><th>Overall P&amp;L</th><th>Overall %</th><th>Current</th><th>Invested</th></tr>`;
+    tb.innerHTML = Object.values(HOLD).map(h=>`<tr class="${S.sym===h.sym?'sel':''}" data-sym="${h.sym}">
+      <td>${h.sym}</td><td>${h.qty}</td><td>${num(h.avg)}</td><td class="${cls(h.chg)}">${num(h.ltp)}</td>
+      <td class="${cls(h.dayPnl)}">${num(h.dayPnl)}</td><td class="${cls(h.dayPct)}">${sgn(h.dayPct)}%</td>
+      <td class="${cls(h.overall)}">${sgn(h.overall)}</td><td class="${cls(h.overallPct)}">${sgn(h.overallPct)}%</td>
+      <td>${num(h.qty*h.ltp)}</td><td>${num(h.invested)}</td></tr>`).join('');
+    tb.querySelectorAll('tr').forEach(r=>r.onclick=()=>{ S.sym=r.dataset.sym; S.qty=3; S.open=true; render(); });
+  } else {
+    const a=US.AAPL, inrAvg=a.buys.reduce((s,b)=>s+b.q*b.p*b.fx,0)/a.qty, curInr=a.ltp*a.fxNow;
+    sm.innerHTML = `<div class="cv"><div class="lbl">Current value</div><div class="big">${inr(a.qty*curInr,0)}</div><div class="lbl" style="margin-top:2px">${usd(a.qty*a.ltp)} · at ₹${num(a.fxNow)}/$</div></div>
+      <div class="st"><div class="lbl">Invested (₹, at buy-date rates)</div><div class="v">${inr(a.qty*inrAvg,0)}</div></div>
+      <div class="st"><div class="lbl">Return in $</div><div class="v neg">${pct((a.ltp/a.avg-1)*100)} ↓</div></div>
+      <div class="st"><div class="lbl">Return in ₹</div><div class="v pos">+${pct((curInr/inrAvg-1)*100)} ↑</div></div>`;
+    th.innerHTML = `<tr><th>Symbol (1)</th><th>Qty.</th><th>Avg. price ($)</th><th>Avg. price (₹)</th><th>LTP ($)</th><th>Return $</th><th>Return ₹</th><th>Current (₹)</th></tr>`;
+    tb.innerHTML = `<tr class="sel"><td>AAPL</td><td>${a.qty}</td><td>${num(a.avg)}</td><td>${num(inrAvg,0)}</td><td class="neg">${num(a.ltp)}</td>
+      <td class="neg">-${pct((a.ltp/a.avg-1)*100)}</td><td class="pos">+${pct((curInr/inrAvg-1)*100)}</td><td>${num(a.qty*curInr,0)}</td></tr>`;
+  }
+  document.querySelectorAll('.htabs .tab[data-mkt]').forEach(t=>t.classList.toggle('on', t.dataset.mkt===S.mkt));
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on', b.dataset.mkt===S.mkt));
+}
+
+/* ---------- render: order panel ---------- */
+const FOOT_IN = 'Sources: Upstox Holdings API, Trade history API (last 3 FYs), live NSE price via market data feed. Charges excluded.';
+const FOOT_US = 'Sources: Alpaca positions & fills (paper), USD/INR live from Upstox global indicator. ₹ figures use daily reference rates on your buy dates, not the rate applied to your transfer.';
+const foot = (txt, tip)=>`<div class="foot"><span class="i" title="${tip}">i</span>${txt} Not a recommendation.</div>`;
+/* break-even vs a reference price, in words a customer understands */
+const beTxt = (avg, ref, refName)=>{ const g=avg/ref-1; return g>=0 ? `${pct(g*100)} above ${refName}` : `${pct(g*100)} below ${refName}`; };
+/* one row: label on the left, "before → after" on the right, optional small line beneath */
+const kv = (k, before, after, sub)=>`<div class="kv"><span class="k">${k}</span><span class="v">${before}<span class="a">→</span><b>${after}</b></span>${sub?`<span class="s">${sub}</span>`:''}</div>`;
+
+function stripIN(h){
+  const isGtt = S.tab==='gtt';
+  const ref = isGtt ? S.trigger : h.ltp;
+  const p   = isGtt ? S.trigger : (S.priceMode==='market' ? h.ltp : S.limit);
+  const q   = Math.max(1, S.qty|0);
+  const c   = compute(h, q, p, ref);
+  const refName = isGtt ? 'the trigger' : "today's price";
+  const title = isGtt ? 'If this GTT fires' : S.tab==='mtf' ? 'After this MTF order' : 'After this order';
+  const dirWord = c.newAvg < h.avg ? 'lowers your average to' : 'raises your average to';
+  let body;
+  if (S.tab==='mtf') {
+    body = `<div class="lead">MTF buys are funded separately and <b>don't change your delivery average</b>. This order creates an MTF lot of <b>${q} shares at ${inr(p)}</b> — you pay ${inr(q*p*0.3157,0)}, Upstox funds the rest.</div>`
+      + kv('Delivery shares', `${h.qty} @ ${inr(h.avg,0)}`, 'unchanged')
+      + kv('MTF lot', '—', `${q} @ ${inr(p,0)}`, 'interest applies daily')
+      + kv(`All ${h.sym} shares`, `${h.qty}`, `${h.qty+q}`, `blended cost ${inr(c.newAvg)}`);
+  } else {
+    body = `<div class="lead">${isGtt ? `If this GTT fires, buying <b>${q} at ${inr(p)}</b>` : `Buying <b>${q} more at ${inr(p)}</b>`} ${dirWord} <b>${inr(c.newAvg)}</b> and puts <b>${inr(q*p,0)}</b> more into ${h.sym}.</div>`
+      + kv('Shares', `${h.qty}`, `${h.qty+q}`)
+      + kv('Average price', inr(h.avg), inr(c.newAvg), `Break-even · ${beTxt(c.newAvg, ref, refName)} (was ${pct((h.avg/ref-1)*100)})`)
+      + kv('A 10% move is worth', inr(c.moveBefore,0), inr(c.moveAfter,0), `How much your money changes each time the price rises or falls 10% — up from ${inr(c.moveBefore,0)} because you'll hold more shares`)
+      + `<div class="chain">Buys so far: ${h.buys.map(b=>`<b>${inr(b.p,0)}</b>`).join('<span class="a">→</span>')}<span class="a">→</span><b>${inr(p,0)}</b> this order · ${nth(c.nth)} buy
+         <span class="d">${h.buys.map(b=>b.d).join(' · ')} · since Apr 2023</span></div>`;
+  }
+  return `<div class="amc ${S.open?'open':''}" id="amc">
+    <div class="head" id="amcHead"><span class="ico"></span><span class="ttl">${title}</span>
+      <span class="right"><span class="sum">Avg ${inr(h.avg)} → <b>${inr(c.newAvg)}</b></span><span class="arrow">▾</span></span></div>
+    <div class="body">${body}${foot('Based on your holdings and the live NSE price. Charges excluded.', FOOT_IN)}</div></div>`;
+}
+function stripReentry(s){
+  const w = WATCH.find(x=>x[0]===s), ltp=w[2], diff=ltp - SOLD[s].p, pc=(ltp/SOLD[s].p-1)*100, q=Math.max(1,S.qty|0);
+  return `<div class="amc reentry ${S.open?'open':''}" id="amc">
+    <div class="head" id="amcHead"><span class="ico"></span><span class="ttl">You've owned ${s} before</span>
+      <span class="right"><span class="sum">Sold at ${inr(SOLD[s].p)} · now <b>${inr(Math.abs(diff))} ${diff<0?'lower':'higher'}</b></span><span class="arrow">▾</span></span></div>
+    <div class="body">
+      <div class="lead">You sold <b>${SOLD[s].q} shares at ${inr(SOLD[s].p)}</b> on ${SOLD[s].d}. Today's price <b>${inr(ltp)}</b> is <b>${inr(Math.abs(diff))} ${diff<0?'lower':'higher'}</b> (${diff<0?'−':'+'}${pct(pc)}). This order starts a fresh position of ${q} share${q>1?'s':''} — there is no old average to blend with.</div>
+      ${foot('From your trade history (last 3 financial years).', FOOT_IN)}</div></div>`;
+}
+function stripUS(a){
+  const q = Math.max(0.1, +S.usQty||1), p=a.ltp, fx=a.fxNow;
+  const inrAvg = a.buys.reduce((s,b)=>s+b.q*b.p*b.fx,0)/a.qty, fxAvg=inrAvg/a.avg;
+  const newUsd = (a.qty*a.avg + q*p)/(a.qty+q);
+  const newInr = (a.qty*inrAvg + q*p*fx)/(a.qty+q);
+  const rUsd=(p/a.avg-1)*100, rInr=(p*fx/inrAvg-1)*100, fxMove=(fx/fxAvg-1)*100;
+  const sg = n=> (n<0?'−':'+')+pct(n);
+  const usdDir = newUsd<a.avg ? 'brings your dollar average down to' : 'raises your dollar average to';
+  const inrDir = newInr>inrAvg ? 'goes <b>up</b>' : 'goes <b>down</b>';
+  return `<div class="amc ${S.open?'open':''}" id="amc">
+    <div class="head" id="amcHead"><span class="ico"></span><span class="ttl">After this order</span>
+      <span class="right"><span class="sum">Avg ${usd(a.avg)} → <b>${usd(newUsd)}</b></span><span class="arrow">▾</span></span></div>
+    <div class="body">
+      <div class="lead">Buying <b>${q} more at ${usd(p)}</b> ${usdDir} <b>${usd(newUsd)}</b> — but your rupee average ${inrDir} to <b>${inr(newInr,0)}</b>, because $1 costs ₹${num(fx,1)} today vs ₹${num(fxAvg,1)} when you bought.</div>
+      <div class="stat2"><div><div class="l">Your return today, in dollars</div><div class="n ${rUsd<0?'neg':'pos'}">${sg(rUsd)}</div></div><div><div class="l">Your return today, in rupees</div><div class="n ${rInr<0?'neg':'pos'}">${sg(rInr)}</div></div></div>
+      <div class="why">Why they differ: the rupee ${fxMove>0?'weakened':'strengthened'} ${pct(fxMove)} since your buys (₹${num(fxAvg,1)} → ₹${num(fx,1)} per $), which ${fxMove>0?'adds to':'takes from'} your rupee return.</div>
+      ${kv('Shares', `${a.qty}`, `${(a.qty+q).toFixed(1)}`)}
+      ${kv('Average price in $', usd(a.avg), usd(newUsd), `Break-even · ${beTxt(newUsd, p, "today's price")} (was ${pct((a.avg/p-1)*100)})`)}
+      ${kv('Average price in ₹', inr(inrAvg,0), inr(newInr,0), `${newInr>inrAvg?'Up':'Down'} because $1 costs ₹${num(fx,1)} today vs ₹${num(fxAvg,1)} at your earlier buys`)}
+      ${kv('A 10% move is worth', usd(0.1*a.qty*p,0), usd(0.1*(a.qty+q)*p,0), `≈ ₹${num(0.1*a.qty*p*fx,0)} → ₹${num(0.1*(a.qty+q)*p*fx,0)} · how much your money changes each time the price rises or falls 10%`)}
+      <div class="chain">Buys so far: ${a.buys.map(b=>`<b>${usd(b.p,0)}</b>`).join('<span class="a">→</span>')}<span class="a">→</span><b>${usd(p,0)}</b> this order · ${nth(a.buys.length+1)} buy
+        <span class="d">${a.buys.map(b=>`${b.d} at ₹${num(b.fx,1)}/$`).join(' · ')} · today ₹${num(fx,1)}/$</span></div>
+      ${foot('₹ figures use daily USD/INR reference rates on your buy dates.', FOOT_US)}</div></div>`;
+}
+
+function renderOrder(){
+  const os=document.getElementById('ostock'), ot=document.getElementById('otabs'), ob=document.getElementById('obody'), of=document.getElementById('ofoot');
+  if(S.mkt==='US'){
+    const a=US.AAPL, q=Math.max(0.1,+S.usQty||1);
+    os.innerHTML = `<div><div class="nm">${a.sym}</div><div class="ch neg">${sgn(a.chg)} (${sgn(a.chgPct)}%)</div></div>
+      <div class="px"><b>${num(a.ltp)}</b> USD · NASDAQ<span class="radio on"></span><br><span style="color:var(--ink-3)">≈ ${inr(a.ltp*a.fxNow,0)} at ₹${num(a.fxNow)}/$</span></div>`;
+    ot.innerHTML = `<button class="on">Regular</button><button>Limit</button><button>Recurring</button>`;
+    ob.innerHTML = `<div class="prod"><button class="on">Delivery</button><button>Notional ($)</button></div>
+      <div class="qp"><div class="f"><div class="lbl">Quantity (fractional) ▾</div><div class="stepper"><button id="qm">−</button><input id="qin" value="${q}" inputmode="decimal"><button id="qp">+</button></div></div>
+      <div class="f"><div class="lbl">Market ▾</div><div class="pbox"><input value="${num(a.ltp)}" disabled></div></div></div>
+      ${stripUS(a)}
+      <div class="acc" style="margin-top:12px">Market depth <span class="ch">⌄</span></div>
+      <div class="note"><span class="dot"></span>US market opens 7:00 PM IST. Order will be placed at the next session.</div>`;
+    of.innerHTML = `<span class="req"><u>Required:</u> ${usd(q*a.ltp)} (≈ ${inr(q*a.ltp*a.fxNow,0)})</span><span class="mtf">LRS this FY: ₹2.1L of ₹10L</span>`;
+    document.getElementById('qm').onclick=()=>{S.usQty=Math.max(0.1,+(q-0.5).toFixed(1));render();};
+    document.getElementById('qp').onclick=()=>{S.usQty=+(q+0.5).toFixed(1);render();};
+    document.getElementById('qin').oninput=e=>{S.usQty=parseFloat(e.target.value)||0.1;renderOrder();};
+  } else {
+    const h = HOLD[S.sym]; const w = WATCH.find(x=>x[0]===S.sym);
+    const ltp = h?h.ltp:w[2], chg=h?h.chg:w[3], chgPct=h?h.chgPct:w[4], bse=h?h.bse:+(ltp*1.002).toFixed(2);
+    const q=Math.max(1,S.qty|0);
+    os.innerHTML = `<div><div class="nm">${S.sym}</div><div class="ch ${cls(chg)}">${sgn(chg)} (${sgn(chgPct)}%)</div></div>
+      <div class="px"><b>${num(ltp)}</b> NSE<span class="radio on"></span><br>${num(bse)} BSE<span class="radio"></span></div>`;
+    ot.innerHTML = ['regular','gtt','mtf'].map(t=>`<button data-tab="${t}" class="${S.tab===t?'on':''}">${t==='regular'?'Regular':t==='gtt'?'GTT':'MTF <span class="badge">3.2X</span>'}</button>`).join('');
+    ot.querySelectorAll('button').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;render();});
+    const priceBox = S.tab==='gtt'
+      ? `<div class="f"><div class="lbl">Trigger price</div><div class="pbox on"><input id="trig" value="${num(S.trigger)}" inputmode="decimal"></div></div>`
+      : `<div class="f"><div class="lbl">${S.priceMode==='market'?'Market':'Limit'} ▾ <button id="pm">${S.priceMode==='market'?'Set limit':'Use market'}</button></div>
+         <div class="pbox ${S.priceMode==='limit'?'on':''}"><input id="lim" value="${S.priceMode==='market'?'':num(S.limit)}" ${S.priceMode==='market'?'disabled':''} inputmode="decimal"></div></div>`;
+    const strip = h ? stripIN(h) : (SOLD[S.sym] ? stripReentry(S.sym) : '');
+    const mtfRow = S.tab==='mtf' ? '' : `<div class="mtfrow"><span class="cb"></span>Buy for ${inr(ltp*0.3157)}/share with MTF <span class="b">3.2X</span><span class="i">ⓘ</span></div>`;
+    ob.innerHTML = `<div class="prod"><button class="on">Delivery (Longterm)</button><button>Intraday (Same day)</button></div>
+      <div class="qp"><div class="f"><div class="lbl">Quantity ▾</div><div class="stepper"><button id="qm">−</button><input id="qin" value="${q}" inputmode="numeric"><button id="qp">+</button></div></div>${priceBox}</div>
+      ${S.tab==='gtt'?'':`<div style="text-align:right;margin-top:6px;font-size:12px;color:var(--purple);font-weight:500">+ Trigger</div>`}
+      ${mtfRow}
+      ${strip}
+      <div class="acc" style="margin-top:12px">Market depth ✎ <span class="ch">⌄</span></div>
+      <div class="acc">Additional settings<small>Add validity &amp; disclosed quantity.</small><span class="ch">⌄</span></div>
+      <div class="note"><span class="dot"></span>Markets are closed. Order will be placed during the next trading session.</div>`;
+    const req = S.tab==='gtt' ? S.trigger*q : (S.priceMode==='market'?ltp:S.limit)*q;
+    of.innerHTML = `<span class="req"><u>Required:</u> ₹ ${num(req)} ⟳</span><span class="mtf">With MTF: ₹ ${num(req*0.3157)}</span>`;
+    document.getElementById('qm').onclick=()=>{S.qty=Math.max(1,q-1);render();};
+    document.getElementById('qp').onclick=()=>{S.qty=q+1;render();};
+    document.getElementById('qin').oninput=e=>{S.qty=parseInt(e.target.value)||1;renderOrder();};
+    const pm=document.getElementById('pm'); if(pm) pm.onclick=()=>{S.priceMode=S.priceMode==='market'?'limit':'market';render();};
+    const lim=document.getElementById('lim'); if(lim&&!lim.disabled) lim.oninput=e=>{S.limit=parseFloat(e.target.value.replace(/,/g,''))||ltp;renderOrder();};
+    const tr=document.getElementById('trig'); if(tr) tr.oninput=e=>{S.trigger=parseFloat(e.target.value.replace(/,/g,''))||ltp;renderOrder();};
+  }
+  const head=document.getElementById('amcHead'); if(head) head.onclick=()=>{S.open=!S.open;document.getElementById('amc').classList.toggle('open',S.open);};
+  const qi=document.getElementById('qin'); if(qi && document.activeElement!==qi){ /* keep caret when typing */ }
+}
+
+function render(){ renderWatch(); renderHoldings(); renderOrder(); }
+
+/* ---------- receipt (final build: sandbox Place Order → re-fetch Holdings) ---------- */
+document.getElementById('review').onclick=()=>{
+  const ov=document.getElementById('ov');
+  if(S.mkt==='US'){
+    const a=US.AAPL, q=Math.max(0.1,+S.usQty||1), inrAvg=a.buys.reduce((s,b)=>s+b.q*b.p*b.fx,0)/a.qty;
+    const nu=(a.qty*a.avg+q*a.ltp)/(a.qty+q), ni=(a.qty*inrAvg+q*a.ltp*a.fxNow)/(a.qty+q);
+    document.getElementById('rcTitle').textContent='Order placed · AAPL';
+    document.getElementById('rcSub').textContent=`Buy ${q} sh at ${usd(a.ltp)} · Alpaca paper`;
+    document.getElementById('rcBody').innerHTML=`$ avg moved <b>${usd(a.avg)} → ${usd(nu)}</b><br>₹ avg moved <b>${inr(inrAvg,0)} → ${inr(ni,0)}</b><br><b>${inr((a.qty+q)*a.ltp*a.fxNow,0)}</b> in AAPL (${(a.qty+q).toFixed(1)} sh)`;
+    document.getElementById('rcMeta').textContent='Paper order on Alpaca (the broker API Upstox US runs on). No money moves.';
+  } else {
+    const h=HOLD[S.sym], q=Math.max(1,S.qty|0);
+    const ltp = h?h.ltp:WATCH.find(x=>x[0]===S.sym)[2];
+    const p = S.tab==='gtt'?S.trigger:(S.priceMode==='market'?ltp:S.limit);
+    document.getElementById('rcTitle').textContent=(S.tab==='gtt'?'GTT placed · ':'Order placed · ')+S.sym;
+    document.getElementById('rcSub').textContent=`Buy ${q} sh at ${inr(p)} · Delivery · ${S.tab==='gtt'?'fires at trigger':'Sandbox'}`;
+    if(h){ const c=compute(h,q,p,ltp);
+      document.getElementById('rcBody').innerHTML=`Avg moved <b>${inr(h.avg)} → ${inr(c.newAvg)}</b><br><b>${inr((h.qty+q)*ltp,0)}</b> in ${S.sym} (${h.qty+q} sh at ${inr(ltp)})<br>Your break-even is now ${inr(c.newAvg)}`;
+    } else {
+      document.getElementById('rcBody').innerHTML=`New position: <b>${q} sh @ ${inr(p)}</b> · ${inr(q*p,0)} in ${S.sym}`;
+    }
+    document.getElementById('rcMeta').textContent='Upstox sandbox order. Final build re-fetches Holdings after fill to print the real new average.';
+  }
+  ov.classList.add('on');
+};
+document.getElementById('rcOk').onclick=()=>document.getElementById('ov').classList.remove('on');
+document.querySelectorAll('.htabs .tab[data-mkt], .seg button').forEach(b=>b.onclick=()=>{ S.mkt=b.dataset.mkt; S.open=true; if(S.mkt==='IN'&&!HOLD[S.sym]) S.sym='PAYTM'; render(); });
+
+document.getElementById('symSel').onchange=e=>{ const [m,s]=e.target.value.split(':'); S.mkt=m; if(m==='IN'){ S.sym=s; S.qty=HOLD[s]?3:1; } S.open=true; render(); };
+
+render();
+</script>
+</body>
+</html>

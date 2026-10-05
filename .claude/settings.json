@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Read", "Edit", "Write", "Glob", "Grep", "Agent",
+      "Bash(npm:*)", "Bash(npm *)", "Bash(npx:*)", "Bash(npx *)", "Bash(node:*)", "Bash(node *)",
+      "Bash(git:*)", "Bash(git *)", "Bash(curl:*)", "Bash(curl *)", "Bash(mkdir:*)", "Bash(mkdir *)",
+      "Bash(ls:*)", "Bash(ls *)", "Bash(cat:*)", "Bash(cat *)", "Bash(grep:*)", "Bash(grep *)",
+      "Bash(cp:*)", "Bash(cp *)", "Bash(mv:*)", "Bash(mv *)", "Bash(rm:*)", "Bash(rm *)",
+      "Bash(echo:*)", "Bash(echo *)", "Bash(touch:*)", "Bash(touch *)", "Bash(sleep:*)", "Bash(sleep *)",
+      "Bash(kill:*)", "Bash(kill *)", "Bash(pwd)", "Bash(dir *)", "Bash(powershell *)", "Bash(tasklist *)", "Bash(netstat *)",
+      "WebFetch(domain:upstox.com)", "WebFetch(domain:assets.upstox.com)", "WebFetch(domain:community.upstox.com)",
+      "WebFetch(domain:docs.alpaca.markets)", "WebFetch(domain:alpaca.markets)",
+      "WebFetch(domain:nextjs.org)", "WebFetch(domain:github.com)", "WebFetch(domain:raw.githubusercontent.com)",
+      "mcp__playwright__*"
+    ],
+    "deny": [
+      "Bash(rm -rf /)", "Bash(rm -rf ~)", "Bash(rm -rf /*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "node .claude/hooks/stop-gate.mjs" } ] }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+.env.*.local
+data/cache/*.json
+data/env-check.json
+.claude/.stop-gate.json
+.build-complete
+*.log
+*.tsbuildinfo
+.next-*/
+.playwright-mcp/
+artifacts/video/
